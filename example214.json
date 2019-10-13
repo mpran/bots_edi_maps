@@ -1,0 +1,84 @@
+{
+  "contents": {
+    "header": {
+      "sender_id": "SENDER",
+      "receiver_id": "RECEIVER",
+      "testindicator": "T"
+    },
+    "shipment": {
+      "reference_number": "123456",
+      "shipment_number": "1233445T",
+      "carrier_code": "SEND",
+      "l11": [
+        {
+          "value": "123",
+          "qualifier": "SI"
+        }
+      ],
+      "n1": [
+        {
+          "qualifier": "SF",
+          "name": "name",
+          "location_code_qualifier": "92",
+          "location_code": "12",
+          "n3": {
+            "address1": "123 Cool street",
+            "address2": ""
+          },
+          "n4": {
+            "city": "CHICAGO",
+            "state": "IL",
+            "zip": "60615",
+            "country": "USA"
+          }
+        }
+      ]
+    },
+    "detail": {
+      "lx": [
+        {
+          "sequence_number": 1,
+          "at7": [
+            {
+              "status_code": "X3",
+              "status_reason_code": "NS",
+              "appointment_code": "",
+              "appointment_reason_code": "",
+              "date": "20191009",
+              "time": "0800",
+              "timezone": "LT",
+              "ms2": {
+                "carrier_code": "SEND",
+                "equipment_number": "Unknown",
+                "equipment_type": ""
+              }
+            }
+          ],
+          "prf": [
+            {
+              "po_number": "12345PO",
+              "n1": [
+                {
+                  "qualifier": "ST",
+                  "name": "Another cool place",
+                  "location_code_qualifier": "93",
+                  "location_code": "23",
+                  "n3": {
+                    "address1": "12345 not cool street",
+                    "address2": ""
+                  },
+                  "n4": {
+                    "city": "CHICAGO",
+                    "state": "IL",
+                    "zip": "60615",
+                    "country": "USA"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
