@@ -22,7 +22,8 @@ structure = [
                     {ID: 'ms1', MIN: 0, MAX: 1},
                     {ID: 'ms2', MIN: 0, MAX: 1}
                 ]},
-                {ID: 'prf', MIN: 0, MAX: 1, LEVEL: [
+                {ID: 'l11', MIN:0, MAX: 9999},
+                {ID: 'prf', MIN: 0, MAX: 9999, LEVEL: [
                     {ID: 'n1', MIN: 0, MAX: 10, LEVEL: [
                         {ID: 'n3', MIN: 1, MAX: 1},
                         {ID: 'n4', MIN: 1, MAX: 1}

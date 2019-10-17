@@ -107,6 +107,8 @@ def main(inn, out):
         # sequence_number = lx.get({'BOTDSID': 'lx', 'sequence_number': None})
         sequence_number = 1
         at7_in_loop = lx.getloop({'BOTSID': 'lx'}, {'BOTSID': 'at7'})
+        lx_ref_numbers = lx.getloop({'BOTSID': 'lx'}, {'BOTSID': 'l11'})
+        lx_prf_numbers = lx.getloop({'BOTSID': 'lx'}, {'BOTSID': 'prf'})
         lx_out_loop = out.putloop({'BOTSID': 'ST'}, {'BOTSID': 'LX'})
 
         lx_out_loop.put({'BOTSID': 'LX', 'LX01': sequence_number})
@@ -131,6 +133,19 @@ def main(inn, out):
             time = at7.get({'BOTSID': 'at7', 'time': None})
             timezone = at7.get({'BOTSID': 'at7', 'timezone': None})
 
+            ms1_city = at7.get({'BOTSID': 'at7'}, {
+                'BOTSID': 'ms1',
+                'city': None
+            })
+            ms1_state = at7.get({'BOTSID': 'at7'}, {
+                'BOTSID': 'ms1',
+                'state': None
+            })
+            ms1_country_code = at7.get({'BOTSID': 'at7'}, {
+                'BOTSID': 'ms1',
+                'country_code': None
+            })
+
             ms2_carrier_code = at7.get({'BOTSID': 'at7'}, {
                 'BOTSID': 'ms2',
                 'carrier_code': None
@@ -146,6 +161,7 @@ def main(inn, out):
                 'equipment_type': None
             })
 
+            #AT7
             at7_out_loop.put({'BOTSID': 'AT7', 'AT701': status_code})
             at7_out_loop.put({'BOTSID': 'AT7', 'AT702': status_reason_code})
             at7_out_loop.put({'BOTSID': 'AT7', 'AT703': appointment_code})
@@ -157,15 +173,137 @@ def main(inn, out):
             at7_out_loop.put({'BOTSID': 'AT7', 'AT706': time})
             at7_out_loop.put({'BOTSID': 'AT7', 'AT707': timezone})
 
+            ## MS1
+
+            at7_out_loop.put({'BOTSID': 'AT7'}, {
+                'BOTSID': 'MS1',
+                'MS101': ms1_city
+            })
+
+            at7_out_loop.put({'BOTSID': 'AT7'}, {
+                'BOTSID': 'MS1',
+                'MS102': ms1_state
+            })
+
+            at7_out_loop.put({'BOTSID': 'AT7'}, {
+                'BOTSID': 'MS1',
+                'MS103': ms1_country_code
+            })
+
+            ## MS2
+
             at7_out_loop.put({'BOTSID': 'AT7'}, {
                 'BOTSID': 'MS2',
-                'MS201': ms2_carrier_code,
-                'MS202': ms2_equipment_number,
+                'MS201': ms2_carrier_code
+            })
+
+            at7_out_loop.put({'BOTSID': 'AT7'}, {
+                'BOTSID': 'MS2',
+                'MS202': ms2_equipment_number
+            })
+
+            at7_out_loop.put({'BOTSID': 'AT7'}, {
+                'BOTSID': 'MS2',
                 'MS203': ms2_equipment_type
             })
 
+        ## L11
+        for lxr in lx_ref_numbers:
+            value = lxr.get({'BOTSID': 'l11', 'value': None})
+            qualifier = lxr.get({'BOTSID': 'l11', 'qualifier': None})
+            lou = out.putloop({'BOTSID': 'ST'}, {'BOTSID': 'LX'},
+                              {'BOTSID': 'L11'})
+            lou.put({'BOTSID': 'L11', 'L1101': value})
+            lou.put({'BOTSID': 'L11', 'L1102': qualifier})
+
+        ## prf
+        for prf in lx_prf_numbers:
+            po_number = prf.get({'BOTSID': 'prf', 'po_number': None})
+            prf_location_loop = prf.getloop({'BOTSID': 'prf'},
+                                            {'BOTSID': 'n1'})
+
+            prf_loop_out = out.putloop({'BOTSID': 'ST'}, {'BOTSID': 'LX'},
+                                       {'BOTSID': 'PRF'})
+
+            prf_loop_out.put({'BOTSID': 'PRF', 'PRF01': po_number})
+
+            for prf_loc in prf_location_loop:
+                locations_loop_out = prf_loop_out.putloop({'BOTSID': 'PRF'},
+                                                          {'BOTSID': 'N1'})
+
+                location_qualifier = prf_loc.get({
+                    'BOTSID': 'n1',
+                    'qualifier': None
+                })
+                location_name = prf_loc.get({'BOTSID': 'n1', 'name': None})
+                location_code_qualifier = prf_loc.get({
+                    'BOTSID':
+                    'n1',
+                    'location_code_qualifier':
+                    None
+                })
+                location_code = prf_loc.get({
+                    'BOTSID': 'n1',
+                    'location_code': None
+                })
+
+                location_address1 = prf_loc.get({'BOTSID': 'n1'}, {
+                    'BOTSID': 'n3',
+                    'address1': None
+                })
+
+                location_city = prf_loc.get({'BOTSID': 'n1'}, {
+                    'BOTSID': 'n4',
+                    'city': None
+                })
+                location_state = prf_loc.get({'BOTSID': 'n1'}, {
+                    'BOTSID': 'n4',
+                    'state': None
+                })
+                location_zip = prf_loc.get({'BOTSID': 'n1'}, {
+                    'BOTSID': 'n4',
+                    'zip': None
+                })
+                location_country = prf_loc.get({'BOTSID': 'n1'}, {
+                    'BOTSID': 'n4',
+                    'country': None
+                })
+
+                locations_loop_out.put({
+                    'BOTSID': 'N1',
+                    'N101': location_qualifier
+                })
+                locations_loop_out.put({'BOTSID': 'N1', 'N102': location_name})
+                locations_loop_out.put({
+                    'BOTSID': 'N1',
+                    'N103': location_code_qualifier
+                })
+                locations_loop_out.put({'BOTSID': 'N1', 'N104': location_code})
+
+                locations_loop_out.put({'BOTSID': 'N1'}, {
+                    'BOTSID': 'N3',
+                    'N301': location_address1
+                })
+
+                locations_loop_out.put({'BOTSID': 'N1'}, {
+                    'BOTSID': 'N4',
+                    'N401': location_city
+                })
+                locations_loop_out.put({'BOTSID': 'N1'}, {
+                    'BOTSID': 'N4',
+                    'N402': location_state
+                })
+                locations_loop_out.put({'BOTSID': 'N1'}, {
+                    'BOTSID': 'N4',
+                    'N403': location_zip
+                })
+                locations_loop_out.put({'BOTSID': 'N1'}, {
+                    'BOTSID': 'N4',
+                    'N404': location_country
+                })
+
     out.put({'BOTSID': 'ST'}, {
         'BOTSID': 'SE',
-        'SE01': out.getcount() + 1,
+        'SE01': out.getcount(),
         'SE02': '0001'
     })

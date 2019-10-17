@@ -47,6 +47,11 @@
               "date": "20191009",
               "time": "0800",
               "timezone": "LT",
+              "ms1": {
+                "city": "CHICAGO",
+                "state": "IL",
+                "country_code": "USA"
+              },
               "ms2": {
                 "carrier_code": "SEND",
                 "equipment_number": "Unknown",
@@ -54,7 +59,16 @@
               }
             }
           ],
+          "l11": [
+            {
+              "value": "2134",
+              "qualifier": "SN"
+            }
+          ],
           "prf": [
+            {
+              "po_number": "12345PO1"
+            },
             {
               "po_number": "12345PO",
               "n1": [
